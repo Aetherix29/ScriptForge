@@ -88,9 +88,9 @@ scans/
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
-### 🔜 v0.0.3
+### v0.0.3
 
 * Auto-trigger tools (e.g., Gobuster for web ports)
 * Improved port parsing

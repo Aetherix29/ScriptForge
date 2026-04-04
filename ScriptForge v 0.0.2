@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ===== Colors =====
+# Colors
 GREEN="\e[32m"
 RED="\e[31m"
 YELLOW="\e[33m"
@@ -8,7 +8,7 @@ NC="\e[0m"
 
 echo -e "${GREEN}=== Nmap Interactive Scanner v0.0.2 ===${NC}"
 
-# ===== Target Input =====
+# Target Input
 read -p "Enter target (IP/domain): " target
 
 if [[ -z "$target" ]]; then
@@ -18,7 +18,7 @@ fi
 
 flags=""
 
-# ===== Scan Type =====
+# Scan Type
 echo "Choose scan type:"
 echo "1) TCP Connect Scan (-sT)"
 echo "2) SYN Scan (-sS) [requires root]"
@@ -38,7 +38,7 @@ else
     flags+=" -sT"
 fi
 
-# ===== Aggressive =====
+# Aggressive
 read -p "Use aggressive scan (-A)? (y/n): " aggressive
 if [[ $aggressive == "y" ]]; then
     flags+=" -A"
@@ -50,15 +50,15 @@ else
     [[ $os == "y" ]] && flags+=" -O"
 fi
 
-# ===== Ports =====
+# Ports
 read -p "Scan all ports? (-p-) (y/n): " all_ports
 [[ $all_ports == "y" ]] && flags+=" -p-"
 
-# ===== Host Discovery =====
+# Host Discovery
 read -p "Skip host discovery (-Pn)? (y/n): " pn
 [[ $pn == "y" ]] && flags+=" -Pn"
 
-# ===== Timing =====
+# Timing
 read -p "Set timing template (0-5, press enter to skip): " timing
 if [[ $timing =~ ^[0-5]$ ]]; then
     flags+=" -T$timing"
@@ -66,7 +66,7 @@ elif [[ -n "$timing" ]]; then
     echo -e "${YELLOW}[!] Invalid timing, skipping${NC}"
 fi
 
-# ===== Min Rate =====
+# Min Rate
 read -p "Set min-rate (number, press enter to skip): " minrate
 if [[ $minrate =~ ^[0-9]+$ ]]; then
     flags+=" --min-rate $minrate"
@@ -74,14 +74,14 @@ elif [[ -n "$minrate" ]]; then
     echo -e "${YELLOW}[!] Invalid min-rate, skipping${NC}"
 fi
 
-# ===== Output Handling (NEW) =====
+# Output
 timestamp=$(date +"%Y%m%d_%H%M%S")
 output_dir="scans/$target/$timestamp"
 mkdir -p "$output_dir"
 
 flags+=" -oA $output_dir/nmap"
 
-# ===== Final Command =====
+# Final Command
 cmd="nmap $flags $target"
 
 echo ""
@@ -89,7 +89,7 @@ echo -e "${GREEN}[+] Generated command:${NC}"
 echo "$cmd"
 echo ""
 
-# ===== Execute =====
+# Execute
 read -p "Run this scan? (y/n): " run
 if [[ $run != "y" ]]; then
     echo -e "${RED}Scan cancelled.${NC}"
@@ -99,7 +99,7 @@ fi
 echo -e "${GREEN}[+] Running scan...${NC}"
 eval $cmd
 
-# ===== Parsing Results (NEW) =====
+# Parsing Results
 echo ""
 echo -e "${GREEN}[+] Extracting open ports...${NC}"
 
@@ -109,7 +109,7 @@ if [[ -f "$output_dir/nmap.gnmap" ]]; then
     echo -e "${YELLOW}Open ports:${NC}"
     echo "$open_ports"
 
-    # ===== Basic Detection (NEW) =====
+    # Basic Detection
     if echo "$open_ports" | grep -q "80\|443"; then
         echo -e "${GREEN}[+] Web service detected (port 80/443)${NC}"
     fi
@@ -117,7 +117,7 @@ else
     echo -e "${RED}[!] Could not find gnmap output for parsing${NC}"
 fi
 
-# ===== Summary (NEW) =====
+# Summary
 echo ""
 echo "========== SUMMARY =========="
 echo "Target: $target"
@@ -125,7 +125,7 @@ echo "Flags used: $flags"
 echo "Output saved in: $output_dir"
 echo "============================="
 
-# ===== Loop =====
+# Loop
 while true; do
     read -p "Run another scan? (y/n): " again
     [[ $again != "y" ]] && break

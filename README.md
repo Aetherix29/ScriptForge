@@ -1,60 +1,124 @@
 # ScriptForge
-# Recon Tool (v0.0.1)
 
-A simple interactive wrapper around Nmap that lets you build scans step-by-step instead of memorizing flags.
-
----
-
-## Function
-
-Nmap is insanely powerful, but remembering what every flag does (and which ones don’t work together) is annoying—especially when you're still learning or just want to move fast.
-
-This tool asks you straightforward questions and builds the command for you, while making sure you don’t accidentally combine things that don’t make sense.
+> Interactive Nmap-based reconnaissance tool built for speed and automation.
 
 ---
 
-## ⚙️ What it does (so far)
+## Current Version
 
-* Walks you through scan setup using prompts
-* Lets you choose scan types like `-sT` or `-sS` without conflict
-* Optionally enables things like:
+**v0.0.2**
 
-  * service detection (`-sV`)
-  * OS detection (`-O`)
-  * aggressive scan (`-A`)
-* Supports timing templates and rate control
-* Shows you the final command before running it
+---
+
+## Overview
+
+ScriptForge is a Bash-based interactive tool that helps automate and streamline the reconnaissance phase of penetration testing.
+
+Instead of manually typing long Nmap commands, ScriptForge:
+
+* Guides you through scan configuration
+* Builds optimized commands
+* Saves results in a structured format
+* Begins basic analysis of scan output
+
+---
+
+## Features (v0.0.2)
+
+* Interactive Nmap flag selection
+* Supports multiple scan types (`-sT`, `-sS`)
+* Smart handling of incompatible options
+* Automatic output saving using `-oA`
+* Organized scan directories (`scans/<target>/<timestamp>/`)
+* Extracts open ports from scan results
+* Detects web services (ports 80, 443)
+* Colored terminal output
+* Scan summary after execution
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/Aetherix29/ScriptForge.git
+cd ScriptForge
+chmod +x script.sh
+```
 
 ---
 
 ## Usage
 
 ```bash
-chmod +x ScriptForge
-./ScriptForge
+./script.sh
 ```
 
-Answer the questions, review the generated command, and run it if you're happy with it.
+Follow the prompts to:
+
+* Select scan type
+* Enable/disable detection options
+* Configure performance settings
 
 ---
 
-## Where this is going
+## Output Structure
 
-Right now it’s just a smarter way to run Nmap.
+After each scan:
 
-The goal is to turn it into a full recon workflow, where:
-
-* Nmap results are saved and parsed
-* Services are detected automatically
-* Other tools (like directory brute-forcing, service enumeration, etc.) run based on what’s found
-
-Basically: from manual scanning → semi-automated recon.
+```
+scans/
+└── <target>/
+    └── <timestamp>/
+        ├── nmap.nmap
+        ├── nmap.xml
+        └── nmap.gnmap
+```
 
 ---
 
-## Note
+## Example Workflow
 
-Use this only on systems you own or have permission to test.
+1. Enter target
+2. Choose scan type
+3. Configure flags
+4. Run scan
+5. View:
+
+   * Open ports
+   * Detected services
+   * Saved results
+
+---
+
+## Notes
+
+* SYN scan (`-sS`) requires root privileges
+* Tool is designed for **learning + controlled environments (CTFs, labs)**
+* Not responsible for misuse
+
+---
+
+## 🛣️ Roadmap
+
+### 🔜 v0.0.3
+
+* Auto-trigger tools (e.g., Gobuster for web ports)
+* Improved port parsing
+* Quick scan mode
+
+### Future
+
+* Modular architecture
+* Service-based automation
+* Full recon pipeline
+* Report generation
+
+---
+
+## Contributing
+
+This project is currently in early development.
+Suggestions, ideas, and improvements are welcome.
 
 ---
 
@@ -66,5 +130,7 @@ MIT License
 
 ## Author
 
-Aditya Pratap Singh
+Built by **Aditya Singh**
+Aspiring Red Teamer | Bash + Recon Enthusiast
 
+---

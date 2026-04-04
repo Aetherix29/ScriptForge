@@ -1,0 +1,73 @@
+#!/bin/bash
+
+echo "=== Nmap Interactive Scanner ==="
+
+# Target input
+read -p "Enter target (IP/domain): " target
+
+flags=""
+
+# Scan type (mutually exclusive)
+echo "Choose scan type:"
+echo "1) TCP Connect Scan (-sT)"
+echo "2) SYN Scan (-sS) [requires root]"
+read -p "Enter choice (1/2): " scan_type
+
+if [[ $scan_type == "1" ]]; then
+    flags+=" -sT"
+elif [[ $scan_type == "2" ]]; then
+    flags+=" -sS"
+else
+    echo "Invalid choice, defaulting to -sT"
+    flags+=" -sT"
+fi
+
+# Aggressive scan
+read -p "Use aggressive scan (-A)? (y/n): " aggressive
+if [[ $aggressive == "y" ]]; then
+    flags+=" -A"
+else
+    # Only ask these if NOT using -A
+    read -p "Enable service version detection (-sV)? (y/n): " sv
+    [[ $sv == "y" ]] && flags+=" -sV"
+
+    read -p "Enable OS detection (-O)? (y/n): " os
+    [[ $os == "y" ]] && flags+=" -O"
+fi
+
+# Port selection
+read -p "Scan all ports? (-p-) (y/n): " all_ports
+[[ $all_ports == "y" ]] && flags+=" -p-"
+
+# Skip host discovery
+read -p "Skip host discovery (-Pn)? (y/n): " pn
+[[ $pn == "y" ]] && flags+=" -Pn"
+
+# Timing template
+read -p "Set timing template (0-5, press enter to skip): " timing
+if [[ $timing =~ ^[0-5]$ ]]; then
+    flags+=" -T$timing"
+fi
+
+# min- rate
+read -p "Set min-rate (number, press enter to skip): " minrate
+if [[ $minrate =~ ^[0-9]+$ ]]; then
+    flags+=" --min-rate $minrate"
+fi
+
+# Final
+cmd="nmap $flags $target"
+
+echo ""
+echo "Generated command:"
+echo "$cmd"
+echo ""
+
+# Execution
+read -p "Run this scan? (y/n): " run
+if [[ $run == "y" ]]; then
+    eval $cmd
+else
+    echo "Scan cancelled."
+fi
+

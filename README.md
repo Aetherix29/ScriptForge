@@ -1,14 +1,4 @@
-# ScriptForge
-
-> Interactive Nmap-based reconnaissance tool built for speed and automation.
-
----
-
-## Current Version
-
-**v0.0.2**
-
----
+# ScriptForge v0.0.2
 
 ## Overview
 

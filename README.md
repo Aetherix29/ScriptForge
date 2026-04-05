@@ -32,7 +32,7 @@ Instead of manually typing long Nmap commands, ScriptForge:
 ```bash
 git clone https://github.com/Aetherix29/ScriptForge.git
 cd ScriptForge
-chmod +x script.sh
+chmod +x ScriptForge
 ```
 
 ---

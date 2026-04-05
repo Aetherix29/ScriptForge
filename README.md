@@ -121,6 +121,6 @@ MIT License
 ## Author
 
 Built by **Aditya Singh**
-Aspiring Red Teamer | Bash + Recon Enthusiast
+Aspiring Penetration Tester
 
 ---
